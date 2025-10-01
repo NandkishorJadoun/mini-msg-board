@@ -1,8 +1,8 @@
-const messages = require("../db/messages");
+const db = require("../db/queries");
 
-let msgCount = messages.length + 1;
+async function getMessages(req, res) {
+  const messages = await db.getAllMessages();
 
-function getMessages(req, res) {
   res.render("index", { title: "Mini Message Board", messages: messages });
 }
 
@@ -10,17 +10,11 @@ function createMessageGet(req, res) {
   res.render("form");
 }
 
-function createMessagePost(req, res) {
+async function createMessagePost(req, res) {
   const messageText = req.body.messageText;
   const messageUser = req.body.messageUser;
 
-  messages.push({
-    id: msgCount++,
-    text: messageText,
-    user: messageUser,
-    added: new Date(),
-  });
-
+  await db.insertMessage(messageText, messageUser, new Date());
   res.redirect("/");
 }
 
