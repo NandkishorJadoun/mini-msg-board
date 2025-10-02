@@ -25,6 +25,16 @@
                     <a href="/"><button type="button">Cancel</button></a>
                 </p>
             </form>
+
+            <% if(locals.errors){ %>
+                <ul>
+                    <% errors.forEach(err=> { %>
+                        <li>
+                            <%= err.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
         </main>
 </body>
 
